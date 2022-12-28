@@ -1,14 +1,34 @@
 import numpy as np
 from sympy import Poly
 
-#Input example:
-#K = NumberField(x**2 + 1, 'i')
-#p = 2
-#frob = frobenius_element(K, p)
-#print(frob)
+#How to use this code:
+# Define the number field K = Q(sqrt(2))
+#K = NumberField(x**2 - 2, 'sqrt2')
 
-#p = prime number
-#rho = galois representation
+# Define the prime p = 2
+#p = 2
+
+## Define the s value at which to evaluate the L-function
+#s = 1 + 1j
+
+# Define the matrix representing the Galois representation
+#rho = np.array([[1, 0], [0, 1]])
+
+# Compute the Artin L-function
+#L = artin_l_function(s, rho)
+#print(L)  # Output: (0.5+1.5j)
+
+# Compute the Frobenius element at p
+#frob = frobenius_at_p(K, p)
+
+# Iterate through the first 10 prime numbers
+#for p in primes():
+#    print(p)
+#    if p > 10:
+#        break
+
+
+
 def artin_l_function(s, rho):
     """Compute the Artin L-function for a given Galois representation.
     Args:
