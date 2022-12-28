@@ -1,18 +1,24 @@
 import numpy as np
 from sympy import Poly
 
+#Input example:
+#K = NumberField(x**2 + 1, 'i')
+#p = 2
+#frob = frobenius_element(K, p)
+#print(frob)
+
+#p = prime number
+#rho = galois representation
 def artin_l_function(s, rho):
     """Compute the Artin L-function for a given Galois representation.
-
     Args:
         s (float): The complex number s at which to evaluate the L-function.
         rho (np.ndarray): The n x n matrix representing the Galois representation.
-
     Returns:
         complex: The value of the Artin L-function at s.
     """
     # Compute the trace of the representation at each prime p
-    a = [np.trace(rho @ frobenius_at_p(p)) for p in primes]
+    a = [np.trace(rho @ frobenius_at_p(p)) for p in primes()]
 
     # Compute the sum over all positive integers n
     L = 0
@@ -21,7 +27,14 @@ def artin_l_function(s, rho):
 
     return L
 
-def frobenius_element(K, p):
+def frobenius_at_p(K, p):
+    """Compute the Frobenius element at a prime p for a given number field K.
+    Args:
+        K (NumberField): The number field for which to compute the Frobenius element.
+        p (int): The prime at which to compute the Frobenius element.
+    Returns:
+        Element: The Frobenius element at p.
+    """
     # Compute the polynomial defining the field extension K/Q
     ext_poly = K.poly()
     
@@ -37,29 +50,18 @@ def frobenius_element(K, p):
     # Return the Frobenius element
     return K.galois_group().element(frob_poly, name='Frob')
 
-    K = NumberField(x**2 + 1, 'i')
-    p = 2
-    frob = frobenius_element(K, p)
-    print(frob)
-
-
 def primes():
     """Generate a list of all prime numbers.
-
     Yields:
         int: The next prime number in the list.
     """
-    def generate_primes(n):
-    primes = []
-    for i in range(2, n+1):
+    n = 2
+    while True:
         is_prime = True
-        for j in range(2, i):
-            if i % j == 0:
+        for j in range(2, n):
+            if n % j == 0:
                 is_prime = False
                 break
         if is_prime:
-            primes.append(i)
-    return primes
-
-print(generate_primes(10))  # Output: [2, 3, 5, 7]
-
+            yield n
+        n += 1
